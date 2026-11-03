@@ -5,11 +5,14 @@
 const API = 'https://sangukjeon.github.io/wsu-meal-api/api'
 const WEEKDAYS = ['일', '월', '화', '수', '목', '금', '토']
 const SAVED_CAFETERIA = 'wsu-meal:cafeteria'
+const SAVED_THEME = 'wsu-meal:theme'
 
 const $dates = document.getElementById('dates')
 const $tabs = document.getElementById('tabs')
 const $content = document.getElementById('content')
 const $source = document.getElementById('source')
+const $theme = document.getElementById('theme')
+const $refresh = document.getElementById('refresh')
 
 const days = new Map() // 'YYYY-MM-DD' → { 식당: { 코너: [메뉴] } } 또는 null
 let order = [] // cafeterias.json 순서 (학교 홈페이지 순서 그대로)
@@ -69,17 +72,17 @@ function nowCorner(corners) {
   return corners.includes(want) ? want : null
 }
 
-// 마지막으로 본 식당 기억하기 (안 되는 브라우저면 그냥 넘어간다)
-function readSaved() {
+// 마지막으로 본 식당·테마 기억하기 (안 되는 브라우저면 그냥 넘어간다)
+function readSaved(key = SAVED_CAFETERIA) {
   try {
-    return localStorage.getItem(SAVED_CAFETERIA)
+    return localStorage.getItem(key)
   } catch {
     return null
   }
 }
-function save(name) {
+function save(value, key = SAVED_CAFETERIA) {
   try {
-    localStorage.setItem(SAVED_CAFETERIA, name)
+    localStorage.setItem(key, value)
   } catch {
     /* 저장 못 해도 화면은 그대로 */
   }
@@ -179,18 +182,48 @@ async function show() {
   }
 }
 
+// ---------- 오른쪽 아래 버튼 ----------
+
+function applyTheme(theme) {
+  const dark = theme === 'dark'
+  if (dark) document.documentElement.dataset.theme = 'dark'
+  else delete document.documentElement.dataset.theme
+  $theme.setAttribute('aria-label', dark ? '밝은 모드로 바꾸기' : '다크 모드로 바꾸기')
+  document.querySelector('meta[name="theme-color"]').content = dark ? '#181d26' : '#2b6bf3'
+}
+
+$theme.addEventListener('click', () => {
+  const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'
+  applyTheme(next)
+  save(next, SAVED_THEME)
+})
+
+// 새로고침: 받아 둔 식단을 버리고 다시 받아 온다 (고른 날짜·식당은 그대로)
+$refresh.addEventListener('click', async () => {
+  if ($refresh.classList.contains('fab--spin')) return
+  $refresh.classList.add('fab--spin')
+  days.clear()
+  try {
+    // 너무 빨리 끝나도 돌아가는 게 보이게 0.6초는 돈다
+    await Promise.all([start(), new Promise((r) => setTimeout(r, 600))])
+  } finally {
+    $refresh.classList.remove('fab--spin')
+  }
+})
+
 // ---------- 시작 ----------
 
 async function start() {
-  renderDates([today])
-  show()
   const [week, cafeterias] = await Promise.all([getJson('week.json').catch(() => null), getJson('cafeterias.json').catch(() => null)])
   order = cafeterias?.data ?? []
   for (const [date, data] of Object.entries(week?.data ?? {})) days.set(date, data)
   const list = Object.keys(week?.data ?? {})
   if (!list.includes(today)) list.push(today)
   renderDates(list.sort())
-  show()
+  await show()
 }
 
+applyTheme(readSaved(SAVED_THEME))
+renderDates([today]) // 주간 목록이 오기 전에도 오늘 식단부터 보이게
+show()
 start()

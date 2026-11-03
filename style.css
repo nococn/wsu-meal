@@ -26,21 +26,19 @@
   color-scheme: light;
 }
 
-/* 다크 모드 */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0f131a;
-    --surface: #181d26;
-    --line: #2a3140;
-    --text-strong: #eef1f6;
-    --text-2: #a3acbb;
-    --text-3: #6f7889;
-    --primary: #4b83f7;
-    --primary-strong: #8fb1ff;
-    --primary-weak: #1b2a4a;
-    --chip: #222937;
-    color-scheme: dark;
-  }
+/* 다크 모드: 폰 설정을 따르지 않고 오른쪽 아래 버튼으로만 바꾼다 */
+:root[data-theme="dark"] {
+  --bg: #0f131a;
+  --surface: #181d26;
+  --line: #2a3140;
+  --text-strong: #eef1f6;
+  --text-2: #a3acbb;
+  --text-3: #6f7889;
+  --primary: #4b83f7;
+  --primary-strong: #8fb1ff;
+  --primary-weak: #1b2a4a;
+  --chip: #222937;
+  color-scheme: dark;
 }
 
 * {
@@ -282,11 +280,60 @@ ul {
 .footer {
   max-width: 560px;
   margin: 0 auto;
-  padding: var(--sp-4) var(--sp-4) calc(var(--sp-8) + env(safe-area-inset-bottom));
+  padding: var(--sp-4) calc(var(--sp-4) + 48px) calc(var(--sp-8) + env(safe-area-inset-bottom)) var(--sp-4);
   font-size: 12px;
   line-height: 20px;
   color: var(--text-3);
 }
 .footer a {
   color: var(--text-2);
+}
+
+/* 오른쪽 아래 작은 버튼 (테마, 새로고침) */
+.fabs {
+  position: fixed;
+  right: calc(var(--sp-4) + env(safe-area-inset-right));
+  bottom: calc(var(--sp-4) + env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  z-index: 10;
+}
+.fab {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--text-2);
+  box-shadow: 0 2px 8px rgba(20, 26, 36, 0.12);
+  transition: transform 100ms ease-in-out;
+}
+.fab:active {
+  transform: scale(0.92);
+}
+.fab svg {
+  width: 18px;
+  height: 18px;
+}
+.fab--spin svg {
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+/* 해·달 아이콘은 지금 테마의 반대를 보여 준다 (누르면 그렇게 바뀜) */
+.icon-sun {
+  display: none;
+}
+:root[data-theme="dark"] .icon-sun {
+  display: block;
+}
+:root[data-theme="dark"] .icon-moon {
+  display: none;
 }
