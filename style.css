@@ -70,20 +70,32 @@ ul {
   margin: 0 auto;
 }
 
-.intro {
-  padding: calc(var(--sp-6) + env(safe-area-inset-top)) var(--sp-4) var(--sp-3);
+/* 맨 위 제목 줄 (DOTCI 화면과 같은 모양) */
+.top-bar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  height: calc(52px + env(safe-area-inset-top));
+  display: flex;
+  align-items: center;
+  padding: env(safe-area-inset-top) var(--sp-4) 0;
   background: var(--surface);
   border-bottom: 1px solid var(--line);
 }
-.eyebrow {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--primary);
+.top-bar__title {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+}
+
+.intro {
+  padding: var(--sp-4) var(--sp-4) var(--sp-3);
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
 }
 .h1 {
-  margin-top: var(--sp-1);
-  font-size: 24px;
-  line-height: 32px;
+  font-size: 22px;
+  line-height: 30px;
   font-weight: 700;
 }
 .lead {
@@ -148,7 +160,7 @@ ul {
 }
 
 .section {
-  padding: var(--sp-4);
+  padding: var(--sp-4) var(--sp-4) 0;
 }
 
 /* 식당: 밑줄 탭 */
@@ -271,6 +283,7 @@ ul {
 
 .source {
   margin-top: var(--sp-4);
+  margin-bottom: var(--sp-1);
   font-size: 12px;
   line-height: 18px;
   color: var(--text-3);

@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>우송대 학식</title>
+  <title>우송대 오늘의 학식</title>
   <meta name="description" content="우송대학교 학생식당·기숙사 식단을 날짜별로 확인하세요." />
   <meta name="theme-color" content="#2b6bf3" />
   <link rel="icon" href="icon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="icon.svg" />
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css?v=4" />
   <script>
     // 저장해 둔 테마를 그리기 전에 적용 (밝은 화면이 잠깐 번쩍이지 않게)
     try {
@@ -17,13 +17,16 @@
   </script>
 </head>
 <body>
+  <header class="top-bar">
+    <h1 class="top-bar__title">우송대 오늘의 학식</h1>
+  </header>
+
   <main class="page">
-    <header class="intro">
-      <p class="eyebrow">우송대학교 학식</p>
-      <h1 class="h1">오늘 뭐 먹지?</h1>
+    <section class="intro">
+      <p class="h1">오늘 뭐 먹지?</p>
       <p class="lead">실제 메뉴와 다를 수 있어요.</p>
       <div class="dates" id="dates" role="group" aria-label="날짜"></div>
-    </header>
+    </section>
 
     <section class="section">
       <div class="tabs" id="tabs" role="tablist" aria-label="식당"></div>
@@ -50,6 +53,6 @@
     </button>
   </div>
 
-  <script src="app.js"></script>
+  <script src="app.js?v=4"></script>
 </body>
 </html>
