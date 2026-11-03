@@ -198,17 +198,10 @@ $theme.addEventListener('click', () => {
   save(next, SAVED_THEME)
 })
 
-// 새로고침: 받아 둔 식단을 버리고 다시 받아 온다 (고른 날짜·식당은 그대로)
-$refresh.addEventListener('click', async () => {
-  if ($refresh.classList.contains('fab--spin')) return
+// 새로고침: 페이지 전체를 다시 불러온다
+$refresh.addEventListener('click', () => {
   $refresh.classList.add('fab--spin')
-  days.clear()
-  try {
-    // 너무 빨리 끝나도 돌아가는 게 보이게 0.6초는 돈다
-    await Promise.all([start(), new Promise((r) => setTimeout(r, 600))])
-  } finally {
-    $refresh.classList.remove('fab--spin')
-  }
+  location.reload()
 })
 
 // ---------- 시작 ----------
