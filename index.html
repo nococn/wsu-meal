@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>우송대 학식</title>
+  <meta name="description" content="우송대학교 학생식당·기숙사 식단을 날짜별로 확인하세요." />
+  <meta name="theme-color" content="#2b6bf3" />
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="icon.svg" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="page">
+    <header class="intro">
+      <p class="eyebrow">우송대학교 학식</p>
+      <h1 class="h1">오늘 뭐 먹지?</h1>
+      <p class="lead">실제 메뉴와 다를 수 있어요.</p>
+      <div class="dates" id="dates" role="group" aria-label="날짜"></div>
+    </header>
+
+    <section class="section">
+      <div class="tabs" id="tabs" role="tablist" aria-label="식당"></div>
+      <div id="content" aria-live="polite">
+        <div class="skeleton" aria-busy="true" aria-label="식단을 불러오는 중"></div>
+      </div>
+      <p class="source" id="source"></p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    출처: <a href="https://www.wsu.ac.kr/page/index.jsp?code=campus0806" rel="noopener" target="_blank">우송대학교 홈페이지 학생식당 안내</a>
+    · 데이터: <a href="https://github.com/sangukjeon/wsu-meal-api" rel="noopener" target="_blank">wsu-meal-api</a>
+    <br />우송대학교의 공식 서비스가 아닙니다.
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
